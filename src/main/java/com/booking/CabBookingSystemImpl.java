@@ -9,9 +9,8 @@ import com.booking.constants.CabSystemConstants;
 import com.booking.exception.CabNotAvailableException;
 import com.booking.model.Cab;
 import com.booking.model.CabRequest;
-
-import cab.booking.util.CacheManager;
-import cab.booking.util.CommonUtil;
+import com.booking.util.CacheManager;
+import com.booking.util.CommonUtil;
 
 /**
  * User : Shikha Date : 05/09/17 Version : v1
