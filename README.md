@@ -45,32 +45,43 @@ Assumptions
 Details about classes :
 -----------------------
 
-Models : 				Cab, CabRequest
+Models : 		Cab, CabRequest
+
 Spark Rest controller : CabBookingController, Main ( to trigger the spark server)
 
 	- methods addCab , requestForNearestCab[ getAvailableCabsBasedOnType() for PINK cab types ], getNumofCabsRunning
+	
 	
 Interface and Service layer : ICabBookingSystem, CabBookingSystemImpl
 
 	- methods addCab , requestForNearestCab[getAvailableCabsBasedOnType() for PINK cab types],  getNumofCabsRunning
 	
-Utility classes : 		JSONUtil, CommonUtil( for calculating distance between two points)
-Caching 		: 		CacheManager
+Utility classes : 	       JSONUtil, CommonUtil( for calculating distance between two points)
+
+Caching 		:     CacheManager
+
 Exception Handling : 	CabNotAvailableException, Response Error ( for spark response error)
+
 Contants :				CabSystemConstants
 
-Test classes : for testing methods addCabs , requestNearestCabs, getNumOfRunningCabs
-----------------
 
-- CabTest: 			 	Cab-Construction , Cab-Request creation
+Test classes : for testing methods addCabs , requestNearestCabs, getNumOfRunningCabs
+------------------------------------------------------------------------------------
+
+- CabTest: 			Cab-Construction , Cab-Request creation
+
 - CabRequest: 			CabRequestConstruction
+
 - CabBookingTest:		Cab-Construction -> checkBooking for nearest cab / nearest PINK cab + CabNotAvailableException handling, 
 
-- Spark Api Test :  	CabBookingControllerIntegrationTest   
+- Spark Api Test :  	        CabBookingControllerIntegrationTest   
 
-						- Cab-Construction 				: testCabConstruction() 			: request("POST", "/cabs?id=DL01HB002&type=red&location=200");
-						- NumOfRunningCabs 				: testGetAllRunningCabs() 			: request("GET", "/cabs");
-						- NearestAVailableCabBooking 	: testNearestAvailableCabRequest()  : request("GET", "/cabs/?bookingId=BR001&cabType=pink&pickupCode=100&dropCode=156");
+		
+		- Cab-Construction 	        : testCabConstruction()   : request("POST", "/cabs?id=DL01HB002&type=red&location=200");
+		
+		- NumOfRunningCabs 	        : testGetAllRunningCabs() : request("GET", "/cabs");
+		
+		- NearestAVailableCabBooking 	: testNearestAvailableCabRequest()  : request("GET", "/cabs/?bookingId=BR001&cabType=pink&pickupCode=100&dropCode=156");
 
 2. Functionalities:
 ---------------------
@@ -94,11 +105,13 @@ Test classes : for testing methods addCabs , requestNearestCabs, getNumOfRunning
 	- Distance between two points is calculated and nearest cab is fetched 
 		
 		CommonUtil calc = new CommonUtil(cab.getLocation(), request.getPickupLocation());
+		
 		double distanceBetween = calc.getDistance();
 		
 	- Check for Cabs availability
 	
 		- selectedCab.addJourney(request)-> addJourneyMinutes() -> this.availableFrom time is specified  : Selected Nearest available cab's Journey time is added  during which it can no longer pick up any other customers
+		
 		- cab.gotTimeToServeThis(request) : Checks that the cab is available from what time if there is a spare time of 15 mins , cab is assigned 
 			calc timeToReach
 			calc currentTime 
@@ -111,13 +124,15 @@ Test classes : for testing methods addCabs , requestNearestCabs, getNumOfRunning
 	- Once Journey finishes and Cab is available based on this.availableFrom time check
 	
 	- Fare Calculation 
+	
 		-selectedCab.getFare(request)
 		-The price is 2 per kilometer. Pink cars cost an additional 5 
 		
 		travelDistance = Math.abs(request.getPickupLocation() - request.getDropLocation());
-		cabFare = CabSystemConstants.FARE;													// 2
+		cabFare = CabSystemConstants.FARE;			// 2
 		if (request.getCabType() == CabSystemConstants.PINK_CAB)
-			cabFare = CabSystemConstants.PINK_CAB_FARE;										//5
-		costCollected = travelDistance * cabFare;											// Fare
+			cabFare = CabSystemConstants.PINK_CAB_FARE;	//5
+		
+		costCollected = travelDistance * cabFare;		// Fare
 
 
