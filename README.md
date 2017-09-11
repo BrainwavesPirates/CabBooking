@@ -1,11 +1,12 @@
 # CabBooking
 
-
+--------------------
 Github REPOSITORY:
 --------------------
 
 https://github.com/BrainwavesPirates/CabBooking
 
+-----------
 Tech Stack :
 -----------
 
@@ -27,9 +28,7 @@ Tech Stack :
 
 -Utility classes : JSONUtil, CommonUtil for calculating distance between two points
 
-Workflow : 
-------------
-
+-----------
 Assumptions
 -----------
 * Cab requests are ordered as per time. Request at time t2 comes after request at time t1 provided t1 < t2
@@ -39,8 +38,9 @@ Assumptions
 	distance = this.getLocation() - request.getPickupLocation() * 2km
 	time to Reach = distance * 2 ( Time for Kilometer)
 	
-	
-1. Details about and Classes and Test classes :
+----------------------------------------------	
+Details about and Classes and Test classes :
+----------------------------------------------
 
 Details about classes :
 -----------------------
@@ -49,8 +49,14 @@ Models : 		Cab, CabRequest
 
 Spark Rest controller : CabBookingController, Main ( to trigger the spark server)
 
-	- methods addCab , requestForNearestCab[ getAvailableCabsBasedOnType() for PINK cab types ], getNumofCabsRunning
+	- addCab 
+		request("POST", "/cabs?id=DL01HB002&type=red&location=200");
+		
+	- requestForNearestCab[ getAvailableCabsBasedOnType() for PINK cab types ] 
+		request("GET", "/cabs/?bookingId=BR001&cabType=pink&pickupCode=100&dropCode=156");
 	
+	-getNumofCabsRunning
+		request("GET", "/cabs");
 	
 Interface and Service layer : ICabBookingSystem, CabBookingSystemImpl
 
@@ -83,7 +89,8 @@ Test classes : for testing methods addCabs , requestNearestCabs, getNumOfRunning
 		
 		- NearestAVailableCabBooking 	: testNearestAvailableCabRequest()  : request("GET", "/cabs/?bookingId=BR001&cabType=pink&pickupCode=100&dropCode=156");
 
-2. Functionalities:
+--------------------
+WORKFLOW:
 ---------------------
 
 -> Cab Creation :: Cabs are added using Spark Test testCabConstruction() / CabTest.java TestCases 
@@ -102,13 +109,13 @@ Test classes : for testing methods addCabs , requestNearestCabs, getNumOfRunning
 		
 -> During Cab Request Following methods are Executed :
  
-	- Distance between two points is calculated and nearest cab is fetched 
+	1. Distance between two points is calculated and nearest cab is fetched 
 		
 		CommonUtil calc = new CommonUtil(cab.getLocation(), request.getPickupLocation());
 		
 		double distanceBetween = calc.getDistance();
 		
-	- Check for Cabs availability
+	2. Check for Cabs availability
 	
 		- selectedCab.addJourney(request)-> addJourneyMinutes() -> this.availableFrom time is specified  : Selected Nearest available cab's Journey time is added  during which it can no longer pick up any other customers
 		
@@ -121,9 +128,9 @@ Test classes : for testing methods addCabs , requestNearestCabs, getNumOfRunning
 		- CabNotAvailableException("No Cab Available") : If there are no taxis available, you reject the customer's request and Exception is thrown
 		
 		
-	- Once Journey finishes and Cab is available based on this.availableFrom time check
+		- Once Journey finishes and Cab is available based on this.availableFrom time check
 	
-	- Fare Calculation 
+	3. Fare Calculation 
 	
 		-selectedCab.getFare(request)
 		-The price is 2 per kilometer. Pink cars cost an additional 5 
