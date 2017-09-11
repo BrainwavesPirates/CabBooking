@@ -14,11 +14,17 @@ Tech Stack :
 	- Inheritance, Encapsulation, Interface, Collections, In -Memory caching, Singleton, Exception and Error Framework, Util classes, Spark restful , 
 	
 -Cache Manager(Singleton) : Collections.synchronizedSet for storing data in memory
+
 -Spark-core for restful API
+
 -Junit Framework for unit tests
+
 -slf4j for logging
+
 -gson
+
 -Maven as a build tool
+
 -Utility classes : JSONUtil, CommonUtil for calculating distance between two points
 
 Workflow : 
